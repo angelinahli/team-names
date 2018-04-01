@@ -1,0 +1,6 @@
+# sensitive files
+storage/unused.json
+storage/used.json
+
+# cache files
+*.pyc
