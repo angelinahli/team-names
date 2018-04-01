@@ -41,21 +41,22 @@ def save_json_data(filepath, data):
 
 # initialize program storage files #
 
-def get_fish_names():
+def get_fish_names(filename):
     """
     generate a unique list of fish names from a potentially non 
     unique list of fish names
     """
-    filename = os.path.join(INPUTDIR, "fish_names.txt")
+    filename = os.path.join(INPUTDIR, filename)
     all_names = get_txt_data(filename)
     fish_names = []
     for name in all_names:
+        name = " ".join([w.capitalize() for w in name.split()])
         if name not in fish_names:
             fish_names.append(name)
     return fish_names
 
 def init_files():
-    unused_names = get_fish_names()
+    unused_names = get_fish_names("fish_names.txt")
     save_json_data(UNUSEDFILE, unused_names)
     save_json_data(USEDFILE, [])
     save_json_data(TEAMSFILE, [])
@@ -67,7 +68,7 @@ def init_files():
 # program functions #
 
 def add_new_fish_names(filename):
-    new_names = get_txt_data(filename)
+    new_names = get_fish_names(filename)
     unused_names = get_json_data(UNUSEDFILE)
     used_names = get_json_data(USEDFILE)
     num_unused = len(unused_names)
@@ -75,7 +76,7 @@ def add_new_fish_names(filename):
         if name not in unused_names and name not in used_names:
             unused_names.append(name)
     save_json_data(UNUSEDFILE, unused_names)
-    print("{} new names added".format(len(unused_names) - num_unused))
+    print("{} new fish names added".format(len(unused_names) - num_unused))
 
 
 def get_teams(filepath):
@@ -122,7 +123,7 @@ def get_team_names(filepath):
             continue
         index = random.randint(0, len(unused_names) - 1) # inclusive index range
         fish_name = unused_names.pop(index)
-        team_name = get_last_initials(team_dict) + " " + fish_name.capitalize()
+        team_name = get_last_initials(team_dict) + " " + fish_name
         team_dict["team_name"] = team_name
         used_names.append(fish_name)
         teams[i] = team_dict
@@ -148,5 +149,6 @@ def make_team_names(filename):
 
 if __name__ == "__main__":
     init_files()
+    add_new_fish_names("fish_names2.txt")
     make_team_names("sample_input.csv")
     pass
