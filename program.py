@@ -118,7 +118,7 @@ def get_team_names(filepath):
         d1_name = team_dict["d1_name"]
         d2_name = team_dict["d2_name"]
         if d1_name in processed or d2_name in processed:
-            print("Team consisting of {} and {} has been processed!".format(
+            print("Team consisting of {} and {} has been processed before!".format(
                 d1_name, d2_name))
             continue
         index = random.randint(0, len(unused_names) - 1) # inclusive index range
