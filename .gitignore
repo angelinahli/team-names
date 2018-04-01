@@ -1,6 +1,8 @@
 # sensitive files
 storage/unused.json
 storage/used.json
+storage/teams_storage.json
+output/team_names.csv
 
 # cache files
 *.pyc
