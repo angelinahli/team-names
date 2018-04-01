@@ -148,7 +148,9 @@ def make_team_names(filename):
     print("Added {} new teams!".format(len(team_lists)))
 
 if __name__ == "__main__":
+    # initialize
     init_files()
     add_new_fish_names("fish_names2.txt")
-    make_team_names("sample_input.csv")
-    pass
+    
+    # add teams
+    # make_team_names("sample_input.csv")

@@ -10,7 +10,7 @@ salmon
 haddock
 tuna
 angelfish
-pirrahna
+pirahna
 clownfish
 rockfish
 lionfish
