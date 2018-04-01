@@ -1,6 +1,6 @@
 # team-names
 
-Project to randomly assign team names for the Wellesley debate tournament. Teams will sign up in pairs and will each be assigned a unique team name in the form "<Last name initials> <Unique name of fish>".
+Project to randomly assign team names for the Wellesley debate tournament. Teams will sign up in pairs and will each be assigned a unique team name in the form "{{Last name initials}} {{Unique name of fish}}".
 
 Program has the following functionality:
 * generate a unique list of fish names from a potentially non unique list of fish names
