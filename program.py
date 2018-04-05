@@ -98,8 +98,8 @@ def get_processed_debaters():
     return names
 
 def get_last_initials(team_dict):
-    first = team_dict["d1_name"].split(" ")[-1].split("'")[-1][0]
-    second = team_dict["d2_name"].split(" ")[-1].split("'")[-1][0]
+    first = team_dict["d1_name"].split()[-1][0]
+    second = team_dict["d2_name"].split()[-1][0]
     return "".join(sorted([first, second])).upper()
 
 def get_data_list(team_dict):
@@ -149,8 +149,8 @@ def make_team_names(filename):
 
 if __name__ == "__main__":
     # initialize
-    init_files()
-    add_new_fish_names("fish_names2.txt")
+    # init_files()
+    # add_new_fish_names("fish_names2.txt")
     
     # add teams
-    # make_team_names("sample_input.csv")
+    make_team_names("input1.csv")

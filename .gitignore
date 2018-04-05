@@ -1,4 +1,5 @@
 # sensitive files
+input/input*.csv
 storage/unused.json
 storage/used.json
 storage/teams_storage.json
