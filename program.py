@@ -151,6 +151,8 @@ if __name__ == "__main__":
     # initialize
     # init_files()
     # add_new_fish_names("fish_names2.txt")
+    add_new_fish_names("fish_names.txt")
     
     # add teams
-    make_team_names("input1.csv")
+    # make_team_names("input1.csv")
+    # make_team_names("input2.csv")
