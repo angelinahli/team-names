@@ -1,9 +1,7 @@
-"""
-name: program.py
-desc: script to implement the logic of the team-names program
-date: 03/31/18
-author: Angelina Li
-"""
+# name: program.py
+# desc: script to implement the logic of the team-names program
+# date: 03/31/18
+# author: Angelina Li
 
 import csv
 import json
@@ -41,6 +39,9 @@ def save_json_data(filepath, data):
 
 # initialize program storage files #
 
+def get_title(string):
+    return " ".join([w.capitalize() for w in string.split()])
+
 def get_fish_names(filename):
     """
     generate a unique list of fish names from a potentially non 
@@ -50,7 +51,7 @@ def get_fish_names(filename):
     all_names = get_txt_data(filename)
     fish_names = []
     for name in all_names:
-        name = " ".join([w.capitalize() for w in name.split()])
+        name = get_title(name)
         if name not in fish_names:
             fish_names.append(name)
     return fish_names
@@ -84,7 +85,14 @@ def get_teams(filepath):
     with open(filepath) as csvfile:
         reader = csv.reader(csvfile, delimiter=",")
         headings = [ head.lower() for head in next(reader) ]
-        return [ dict(zip(headings, data)) for data in reader ]
+        teams = []
+        count = 0
+        for data in reader:
+            team_dict = dict(zip(headings, data))
+            team_dict["order"] = count
+            count += 1
+            teams.append(team_dict)
+    return teams
 
 def get_processed_debaters():
     """
@@ -105,18 +113,39 @@ def get_last_initials(team_dict):
 def get_data_list(team_dict):
     return [team_dict[varname] for varname in HEADINGS]
 
-def get_team_names(filepath):
+def get_team_names(filepath, assigned_names=None):
+    assigned_names = {name.lower(): fish for name, fish in assigned_names.items()}
     teams = get_teams(filepath)
+    new_teams = []
     processed = get_processed_debaters()
     unused_names = get_json_data(UNUSEDFILE)
     used_names = get_json_data(USEDFILE)
     
     if len(unused_names) < len(teams):
         raise Exception("Need to add more fish names")
+
+    for name, fish_name in assigned_names.items():
+        assigned_dict = None
+        if fish_name in unused_names:
+            unused_names.remove(fish_name)
+        for team_dict in teams:
+            d1_name = team_dict["d1_name"].strip()
+            d2_name = team_dict["d2_name"].strip()
+            if name.lower() in [d1_name.lower(), d2_name.lower()]:
+                assigned_dict = team_dict
+                teams.remove(team_dict)
+                break
+        if assigned_dict == None:
+            print("THERE IS A PROBLEM - FIX IT")
+            break
+        team_name = get_last_initials(team_dict) + " " + fish_name
+        team_dict["team_name"] = team_name
+        used_names.append(fish_name)
+        new_teams.append(team_dict)
     
     for i, team_dict in enumerate(teams):
-        d1_name = team_dict["d1_name"]
-        d2_name = team_dict["d2_name"]
+        d1_name = team_dict["d1_name"].strip()
+        d2_name = team_dict["d2_name"].strip()
         if d1_name in processed or d2_name in processed:
             print("Team consisting of {} and {} has been processed before!".format(
                 d1_name, d2_name))
@@ -126,19 +155,20 @@ def get_team_names(filepath):
         team_name = get_last_initials(team_dict) + " " + fish_name
         team_dict["team_name"] = team_name
         used_names.append(fish_name)
-        teams[i] = team_dict
+        new_teams.append(team_dict)
 
     save_json_data(UNUSEDFILE, unused_names)
     save_json_data(USEDFILE, used_names)
-    return teams
+    return sorted(new_teams, key=lambda team_dict: team_dict["order"])
 
 def add_processed(teams):
     all_processed = get_json_data(TEAMSFILE) + teams
     save_json_data(TEAMSFILE, all_processed)
 
-def make_team_names(filename):
+def make_team_names(filename, assigned_names=None):
+    """ assigned names: dictionary of name of competitor: fish name """
     filepath = os.path.join(INPUTDIR, filename)
-    teams = get_team_names(filepath)
+    teams = get_team_names(filepath, assigned_names)
     add_processed(teams)
     team_lists = [get_data_list(team_dict) for team_dict in teams]
     with open(OUTPUTFILE, "a") as fl:
@@ -149,10 +179,8 @@ def make_team_names(filename):
 
 if __name__ == "__main__":
     # initialize
-    # init_files()
-    # add_new_fish_names("fish_names2.txt")
-    add_new_fish_names("fish_names.txt")
+    init_files()
     
     # add teams
-    # make_team_names("input1.csv")
+    make_team_names("input1.csv")
     # make_team_names("input2.csv")

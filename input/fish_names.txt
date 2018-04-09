@@ -14,8 +14,6 @@ pirahna
 clownfish
 rockfish
 lionfish
-hagfish
-hatchetfish
 catfish
 flying fish
 goblin shark
@@ -24,13 +22,8 @@ nurse shark
 lemon shark
 hammerhead
 bluetang
-lobstah
-shrimp
 starfish
-krill
 guppy
-sucker fish
-puffer
 cowfish
 lungfish
 barracuda
@@ -47,7 +40,6 @@ silverside
 grayling
 prowfish
 moray
-oilfish
 killifish
 dragonfish
 barfish
@@ -63,9 +55,8 @@ scalyfin
 scabbardfish
 seahorse
 urchin
-blobfish
-blowfish
 trout
+kraken
 grouper
 sunfish
 goby
